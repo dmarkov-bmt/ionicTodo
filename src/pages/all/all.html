@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+
+    <ion-title>All {{activeTab}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addMenu()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-sliding *ngFor="let todo of todoList">
+
+      <ion-item>
+        {{todo.value}}
+        <ion-icon name="checkmark-circle" color="secondary" *ngIf="!todo.isActive"></ion-icon>
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button (click)="chngVal(todo)">
+          <ion-icon name="brush"></ion-icon>
+          Change
+        </button>
+        <button ion-button
+                color="secondary"
+                *ngIf="todo.isActive"
+                (click)="updateTodo({id: todo.id, value: todo.value, isActive: false})">
+          <ion-icon name="checkmark"></ion-icon>
+          Complete
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="left">
+        <button ion-button color="danger" (click)="removeTodo(todo.id)">
+          <ion-icon name="trash"></ion-icon>
+          Remove
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
