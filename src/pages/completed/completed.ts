@@ -5,11 +5,12 @@ import { Todo } from '../../app/todo';
 
 @IonicPage()
 @Component({
-  selector: 'page-all',
-  templateUrl: 'all.html',
+  selector: 'page-completed',
+  templateUrl: 'completed.html',
 })
-export class AllPage {
+export class CompletedPage {
   todoList: Todo[] = [];
+  todoAllItems: Todo[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -53,7 +54,10 @@ export class AllPage {
 
   public getTodo() {
     this.todoProvider.getTodo()
-      .subscribe(todo => this.todoList = todo);
+      .subscribe(todo => {
+        this.todoAllItems = todo;
+        this.todoList = todo.filter(item => !item.isActive);
+      });
   }
 
   public removeTodo(id) {
@@ -103,7 +107,7 @@ export class AllPage {
           text: 'Delete all',
           role: 'destructive',
           handler: () => {
-            this.todoProvider.deleteAll(this.todoList)
+            this.todoProvider.deleteAll(this.todoAllItems)
               .subscribe(() => this.getTodo());
           },
         },
@@ -111,8 +115,8 @@ export class AllPage {
         {
           text: 'Complete all',
           handler: () => {
-            this.todoList.forEach(item => item.isActive = false);
-            this.todoProvider.completeAll(this.todoList)
+            this.todoAllItems.forEach(item => item.isActive = false);
+            this.todoProvider.completeAll(this.todoAllItems)
               .subscribe(() => this.getTodo());
           },
         },
@@ -128,5 +132,6 @@ export class AllPage {
     });
     actionSheet.present();
   }
+
 
 }

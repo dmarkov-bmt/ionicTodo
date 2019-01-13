@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-navbar color="danger">
+    <ion-title>Active</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addMenu()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="sheetAction()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-sliding *ngFor="let todo of todoList">
+
+      <ion-item>
+        {{todo.value}}
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button (click)="chngVal(todo)">
+          <ion-icon name="create"></ion-icon>
+          Change
+        </button>
+        <button ion-button
+                color="secondary"
+                (click)="updateTodo({id: todo.id, value: todo.value, isActive: false})">
+          <ion-icon name="checkmark"></ion-icon>
+          Complete
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="left">
+        <button ion-button color="danger" (click)="removeTodo(todo.id)">
+          <ion-icon name="trash"></ion-icon>
+          Remove
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
