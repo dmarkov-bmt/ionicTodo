@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 import { TodoProvider } from '../../providers/todo/todo';
 import { Todo } from '../../app/todo';
 
@@ -14,6 +14,7 @@ export class AllPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public alertCtrl: AlertController,
+              public actionSheet: ActionSheetController,
               private todoProvider: TodoProvider) {
   }
 
@@ -86,13 +87,47 @@ export class AllPage {
         {
           text: 'Change',
           handler: item => {
-            this.todoProvider.updateTodo({id: data.id, value: item.text, isActive: data.isActive})
+            this.todoProvider.updateTodo({ id: data.id, value: item.text, isActive: data.isActive })
               .subscribe(() => this.getTodo());
           },
         },
       ],
     });
     alert.present();
+  }
+
+  sheetAction() {
+    const actionSheet = this.actionSheet.create({
+      title: 'What you want to do?',
+      buttons: [
+        {
+          text: 'Delete all',
+          role: 'destructive',
+          handler: () => {
+            this.todoProvider.deleteAll(this.todoList)
+              .subscribe(() => this.getTodo());
+          },
+        },
+
+        {
+          text: 'Complete all',
+          handler: () => {
+            this.todoList.forEach(item => item.isActive = false);
+            this.todoProvider.completeAll(this.todoList)
+              .subscribe(() => this.getTodo());
+          },
+        },
+
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          },
+        },
+
+      ],
+    });
+    actionSheet.present();
   }
 
 }

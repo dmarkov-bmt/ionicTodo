@@ -2,11 +2,14 @@
 
   <ion-navbar color="primary">
 
-    <ion-title>All {{activeTab}}</ion-title>
+    <ion-title>All</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="addMenu()">
         <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="sheetAction()">
+        <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -24,7 +27,7 @@
 
       <ion-item-options side="right">
         <button ion-button (click)="chngVal(todo)">
-          <ion-icon name="brush"></ion-icon>
+          <ion-icon name="create"></ion-icon>
           Change
         </button>
         <button ion-button
